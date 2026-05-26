@@ -36,6 +36,18 @@ function NuevoProductoPage() {
       return;
     }
 
+    if (tab === "mix") {
+      if (Math.abs(sumaComponentes - 1) >= 0.001) {
+        toast.error("La suma de componentes debe ser exactamente 1.0 kg");
+        return;
+      }
+      const componentesValidos = componentes.filter((c) => c.componenteId && c.cantidad);
+      if (componentesValidos.length === 0) {
+        toast.error("Agregá al menos un componente");
+        return;
+      }
+    }
+
     try {
       const nuevo = await crearProducto({
         data: {

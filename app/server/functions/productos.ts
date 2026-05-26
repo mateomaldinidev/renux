@@ -201,3 +201,34 @@ export const registrarLote = createServerFn({ method: "POST" })
       return lote;
     });
   });
+
+export const registrarMerma = createServerFn({ method: "POST" })
+  .inputValidator((data: {
+    productId: number;
+    cantidadKg: number;
+    motivo: string;
+    fecha: string;
+  }) => data)
+  .handler(async ({ data }) => {
+    return await db.transaction(async (tx) => {
+      const [merma] = await tx
+        .insert(shrinkage)
+        .values({
+          productId: data.productId,
+          cantidadKg: data.cantidadKg.toString(),
+          motivo: data.motivo,
+          fecha: new Date(data.fecha),
+        })
+        .returning();
+
+      await tx
+        .update(products)
+        .set({
+          stockDisponible: sql`${products.stockDisponible} - ${data.cantidadKg}`,
+          updatedAt: new Date(),
+        })
+        .where(eq(products.id, data.productId));
+
+      return merma;
+    });
+  });

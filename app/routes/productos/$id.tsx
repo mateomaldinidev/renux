@@ -1,6 +1,6 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
-import { getProducto, updateProducto, registrarLote } from "../../server/functions/productos";
+import { getProducto, updateProducto, registrarLote, registrarMerma } from "../../server/functions/productos";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
@@ -25,10 +25,15 @@ function ProductoDetallePage() {
   const [precioUnidad, setPrecioUnidad] = useState(producto.precioUnidad || "");
   const [pesoUnidad, setPesoUnidad] = useState(producto.pesoUnidad || "");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [mermaDialogOpen, setMermaDialogOpen] = useState(false);
 
   const [loteCantidad, setLoteCantidad] = useState("");
   const [loteCosto, setLoteCosto] = useState("");
   const [loteFecha, setLoteFecha] = useState(new Date().toISOString().split("T")[0]);
+
+  const [mermaCantidad, setMermaCantidad] = useState("");
+  const [mermaMotivo, setMermaMotivo] = useState("");
+  const [mermaFecha, setMermaFecha] = useState(new Date().toISOString().split("T")[0]);
 
   const handleGuardar = async () => {
     try {
@@ -70,6 +75,30 @@ function ProductoDetallePage() {
       router.navigate({ to: "/productos/$id", params: { id: String(producto.id) }, replace: true });
     } catch {
       toast.error("Error al registrar lote");
+    }
+  };
+
+  const handleRegistrarMerma = async () => {
+    if (!mermaCantidad || !mermaMotivo) {
+      toast.error("Completá todos los campos");
+      return;
+    }
+    try {
+      await registrarMerma({
+        data: {
+          productId: producto.id,
+          cantidadKg: Number(mermaCantidad),
+          motivo: mermaMotivo,
+          fecha: mermaFecha,
+        },
+      });
+      toast.success("Merma registrada");
+      setMermaDialogOpen(false);
+      setMermaCantidad("");
+      setMermaMotivo("");
+      router.navigate({ to: "/productos/$id", params: { id: String(producto.id) }, replace: true });
+    } catch {
+      toast.error("Error al registrar merma");
     }
   };
 
@@ -227,7 +256,40 @@ function ProductoDetallePage() {
 
           {mermas.length > 0 && (
             <div className="rounded-xl border border-orange-100 bg-white p-5">
-              <h2 className="font-display text-lg font-bold mb-4">Mermas recientes</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-display text-lg font-bold">Mermas recientes</h2>
+                <Dialog open={mermaDialogOpen} onOpenChange={setMermaDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button size="sm" variant="outline">Registrar merma</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Registrar merma</DialogTitle>
+                      <DialogDescription>
+                        Se descontará del stock disponible
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="space-y-1.5">
+                        <Label>Cantidad (kg) *</Label>
+                        <Input type="number" step="0.001" value={mermaCantidad} onChange={(e) => setMermaCantidad(e.target.value)} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label>Motivo *</Label>
+                        <Input value={mermaMotivo} onChange={(e) => setMermaMotivo(e.target.value)} placeholder="ej: Vencimiento, daño..." />
+                      </div>
+                      <div className="space-y-1.5">
+                        <Label>Fecha</Label>
+                        <Input type="date" value={mermaFecha} onChange={(e) => setMermaFecha(e.target.value)} />
+                      </div>
+                    </div>
+                    <DialogFooter>
+                      <Button variant="outline" onClick={() => setMermaDialogOpen(false)}>Cancelar</Button>
+                      <Button onClick={handleRegistrarMerma}>Confirmar merma</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              </div>
               <Table>
                 <TableHeader>
                   <TableRow>
