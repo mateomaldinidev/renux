@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db } from "../db";
 import { products, lots, mixComponents, shrinkage } from "../db/schema";
-import { eq, desc, and, sql, like } from "drizzle-orm";
+import { eq, desc, sql } from "drizzle-orm";
 
 export const getProductos = createServerFn({ method: "GET" })
   .inputValidator((data: {
@@ -9,7 +9,7 @@ export const getProductos = createServerFn({ method: "GET" })
     tipo?: "todos" | "por_kg" | "por_unidad" | "ambos" | "mix";
     verInactivos?: boolean;
   }) => data)
-  .handler(async ({ data }) => {
+  .handler(async ({ data: _data }) => {
     const lista = await db.select().from(products).orderBy(desc(products.createdAt));
 
     const resultados = await Promise.all(
