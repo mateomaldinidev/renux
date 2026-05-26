@@ -18,6 +18,8 @@ import { Route as ClientesIndexRouteImport } from './../app/routes/clientes/inde
 import { Route as BalanceIndexRouteImport } from './../app/routes/balance/index'
 import { Route as ProductosNuevoRouteImport } from './../app/routes/productos/nuevo'
 import { Route as ProductosIdRouteImport } from './../app/routes/productos/$id'
+import { Route as PedidosNuevoRouteImport } from './../app/routes/pedidos/nuevo'
+import { Route as PedidosIdRouteImport } from './../app/routes/pedidos/$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -64,10 +66,22 @@ const ProductosIdRoute = ProductosIdRouteImport.update({
   path: '/productos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PedidosNuevoRoute = PedidosNuevoRouteImport.update({
+  id: '/pedidos/nuevo',
+  path: '/pedidos/nuevo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PedidosIdRoute = PedidosIdRouteImport.update({
+  id: '/pedidos/$id',
+  path: '/pedidos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/pedidos/$id': typeof PedidosIdRoute
+  '/pedidos/nuevo': typeof PedidosNuevoRoute
   '/productos/$id': typeof ProductosIdRoute
   '/productos/nuevo': typeof ProductosNuevoRoute
   '/balance/': typeof BalanceIndexRoute
@@ -79,6 +93,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/pedidos/$id': typeof PedidosIdRoute
+  '/pedidos/nuevo': typeof PedidosNuevoRoute
   '/productos/$id': typeof ProductosIdRoute
   '/productos/nuevo': typeof ProductosNuevoRoute
   '/balance': typeof BalanceIndexRoute
@@ -91,6 +107,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/pedidos/$id': typeof PedidosIdRoute
+  '/pedidos/nuevo': typeof PedidosNuevoRoute
   '/productos/$id': typeof ProductosIdRoute
   '/productos/nuevo': typeof ProductosNuevoRoute
   '/balance/': typeof BalanceIndexRoute
@@ -104,6 +122,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/pedidos/$id'
+    | '/pedidos/nuevo'
     | '/productos/$id'
     | '/productos/nuevo'
     | '/balance/'
@@ -115,6 +135,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/pedidos/$id'
+    | '/pedidos/nuevo'
     | '/productos/$id'
     | '/productos/nuevo'
     | '/balance'
@@ -126,6 +148,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/login'
+    | '/pedidos/$id'
+    | '/pedidos/nuevo'
     | '/productos/$id'
     | '/productos/nuevo'
     | '/balance/'
@@ -138,6 +162,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
+  PedidosIdRoute: typeof PedidosIdRoute
+  PedidosNuevoRoute: typeof PedidosNuevoRoute
   ProductosIdRoute: typeof ProductosIdRoute
   ProductosNuevoRoute: typeof ProductosNuevoRoute
   BalanceIndexRoute: typeof BalanceIndexRoute
@@ -212,12 +238,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pedidos/nuevo': {
+      id: '/pedidos/nuevo'
+      path: '/pedidos/nuevo'
+      fullPath: '/pedidos/nuevo'
+      preLoaderRoute: typeof PedidosNuevoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pedidos/$id': {
+      id: '/pedidos/$id'
+      path: '/pedidos/$id'
+      fullPath: '/pedidos/$id'
+      preLoaderRoute: typeof PedidosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
+  PedidosIdRoute: PedidosIdRoute,
+  PedidosNuevoRoute: PedidosNuevoRoute,
   ProductosIdRoute: ProductosIdRoute,
   ProductosNuevoRoute: ProductosNuevoRoute,
   BalanceIndexRoute: BalanceIndexRoute,
