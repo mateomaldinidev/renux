@@ -16,6 +16,8 @@ import { Route as PedidosIndexRouteImport } from './../app/routes/pedidos/index'
 import { Route as GastosIndexRouteImport } from './../app/routes/gastos/index'
 import { Route as ClientesIndexRouteImport } from './../app/routes/clientes/index'
 import { Route as BalanceIndexRouteImport } from './../app/routes/balance/index'
+import { Route as ProductosNuevoRouteImport } from './../app/routes/productos/nuevo'
+import { Route as ProductosIdRouteImport } from './../app/routes/productos/$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -52,10 +54,22 @@ const BalanceIndexRoute = BalanceIndexRouteImport.update({
   path: '/balance/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductosNuevoRoute = ProductosNuevoRouteImport.update({
+  id: '/productos/nuevo',
+  path: '/productos/nuevo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductosIdRoute = ProductosIdRouteImport.update({
+  id: '/productos/$id',
+  path: '/productos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/productos/$id': typeof ProductosIdRoute
+  '/productos/nuevo': typeof ProductosNuevoRoute
   '/balance/': typeof BalanceIndexRoute
   '/clientes/': typeof ClientesIndexRoute
   '/gastos/': typeof GastosIndexRoute
@@ -65,6 +79,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/productos/$id': typeof ProductosIdRoute
+  '/productos/nuevo': typeof ProductosNuevoRoute
   '/balance': typeof BalanceIndexRoute
   '/clientes': typeof ClientesIndexRoute
   '/gastos': typeof GastosIndexRoute
@@ -75,6 +91,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/productos/$id': typeof ProductosIdRoute
+  '/productos/nuevo': typeof ProductosNuevoRoute
   '/balance/': typeof BalanceIndexRoute
   '/clientes/': typeof ClientesIndexRoute
   '/gastos/': typeof GastosIndexRoute
@@ -86,6 +104,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
+    | '/productos/$id'
+    | '/productos/nuevo'
     | '/balance/'
     | '/clientes/'
     | '/gastos/'
@@ -95,6 +115,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/productos/$id'
+    | '/productos/nuevo'
     | '/balance'
     | '/clientes'
     | '/gastos'
@@ -104,6 +126,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/login'
+    | '/productos/$id'
+    | '/productos/nuevo'
     | '/balance/'
     | '/clientes/'
     | '/gastos/'
@@ -114,6 +138,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
+  ProductosIdRoute: typeof ProductosIdRoute
+  ProductosNuevoRoute: typeof ProductosNuevoRoute
   BalanceIndexRoute: typeof BalanceIndexRoute
   ClientesIndexRoute: typeof ClientesIndexRoute
   GastosIndexRoute: typeof GastosIndexRoute
@@ -172,12 +198,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BalanceIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/productos/nuevo': {
+      id: '/productos/nuevo'
+      path: '/productos/nuevo'
+      fullPath: '/productos/nuevo'
+      preLoaderRoute: typeof ProductosNuevoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/productos/$id': {
+      id: '/productos/$id'
+      path: '/productos/$id'
+      fullPath: '/productos/$id'
+      preLoaderRoute: typeof ProductosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
+  ProductosIdRoute: ProductosIdRoute,
+  ProductosNuevoRoute: ProductosNuevoRoute,
   BalanceIndexRoute: BalanceIndexRoute,
   ClientesIndexRoute: ClientesIndexRoute,
   GastosIndexRoute: GastosIndexRoute,
