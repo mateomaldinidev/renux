@@ -18,7 +18,13 @@ const config = defineConfig({
       routesDirectory: './app/routes',
       generatedRouteTree: './src/routeTree.gen.ts',
     }),
-    tanstackStart(),
+    tanstackStart({
+      srcDirectory: './app',
+      router: {
+        routesDirectory: './routes',
+        entry: '../src/router',
+      },
+    }),
     viteReact(),
   ],
 })
