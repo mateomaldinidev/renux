@@ -93,44 +93,42 @@ Evitar: diseños all-white genéricos, azules corporativos, iconos stock, tipogr
 ## Tipografía
 
 ```css
-/* Instalar via Google Fonts en el layout raíz */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+/* Instalar via Google Fonts en el layout raíz (__root.tsx head) */
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Zain:wght@200;300;400;700;800;900&display=swap" />
 
 :root {
-  --font-display: 'Inter', sans-serif;    /* títulos, números grandes, logo */
-  --font-mono:    'Space Mono', monospace; /* datos, labels, UI general */
+  --font-display: 'Zain', sans-serif;      /* títulos, números grandes, logo */
+  --font-mono:    'Nunito', sans-serif;    /* datos, labels, UI general */
 }
 ```
 
 ### Jerarquía tipográfica
 
 ```
-Page title (h1):     Syne 24px / weight 800 / color text-1
-Section title (h2):  Syne 18px / weight 700 / color text-1
-Card title:          Syne 15px / weight 700 / color text-1
-Stat number grande:  Syne 32-40px / weight 800 / color primary o text-1
-Stat number chico:   Syne 20px / weight 700
+Page title (h1):     Zain 24px / weight 800 / color text-1
+Section title (h2):  Zain 18px / weight 700 / color text-1
+Card title:          Zain 15px / weight 700 / color text-1
+Stat number grande:  Zain 32-40px / weight 800 / color primary o text-1
+Stat number chico:   Zain 20px / weight 700
 
-Body / UI general:   Space Mono 12-13px / weight 400 / color text-2
-Labels de campo:     Space Mono 10px / weight 400 / UPPERCASE / letter-spacing 0.1em / color text-3
-Datos de tabla:      Space Mono 12px / color text-2
-Texto de badges:     Space Mono 10px / weight 400
+Body / UI general:   Nunito 12-13px / weight 400 / color text-2
+Labels de campo:     Nunito 10px / weight 400 / UPPERCASE / letter-spacing 0.1em / color text-3
+Datos de tabla:      Nunito 12px / color text-2
+Texto de badges:     Nunito 10px / weight 400
 
-Botones:             Space Mono 12px / weight 700
+Botones:             Nunito 12px / weight 700
 ```
 
 ### Aplicación en Tailwind
 
-Configurar en `tailwind.config.ts`:
+Configurar en `@theme` dentro de `src/styles.css`:
 
 ```ts
-theme: {
-  extend: {
-    fontFamily: {
-      display: ['Syne', 'sans-serif'],
-      mono: ['Space Mono', 'monospace'],
-    },
-  },
+@theme {
+  --font-display: 'Zain', sans-serif;
+  --font-mono: 'Nunito', sans-serif;
 }
 ```
 
@@ -711,7 +709,7 @@ Padding de página:
 |---|---|
 | Fondo blanco puro `#FFFFFF` como fondo general | Usar `#FFF5F0` (crema) |
 | Texto gris genérico `text-gray-500` para labels | `font-mono text-[10px] uppercase tracking-widest text-gray-400` |
-| Fuentes Inter, Roboto, Arial | Syne + Space Mono |
+| Fuentes Inter, Roboto, Arial | Zain + Nunito |
 | Sombras `shadow-lg` en cards | Borde sutil `border-orange-100` |
 | Spinner giratorio centrado en el loading | Skeleton que imita la estructura |
 | Gradientes de color arbitrarios | Color sólido naranja o superficies blancas |

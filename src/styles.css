@@ -1,11 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@400..800&display=swap");
 @import "tailwindcss";
 
 @source "../app";
 
 @theme {
-  --font-display: 'Syne', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-display: 'Zain', sans-serif;
+  --font-mono: 'Nunito', sans-serif;
 }
 
 :root {

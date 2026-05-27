@@ -263,74 +263,40 @@ export const checkSession = createServerFn({ method: "GET" }).handler(
 
 ---
 
-## Paso 11 — Middleware de auth
+## Paso 11 — Protección de rutas con beforeLoad
 
-Crear `app/server/middleware/auth.ts`:
+NO crear un middleware global. TanStack Start no soporta middleware al estilo Express.
+En su lugar, usar `beforeLoad` en `__root.tsx` para proteger todas las rutas de una vez.
 
-```ts
-import { createMiddleware } from "@tanstack/start";
-import { getCookie } from "vinxi/http";
-import { unsealData } from "iron-session";
+Editar `app/routes/__root.tsx`:
 
-const SESSION_OPTIONS = {
-  password: process.env.SESSION_SECRET!,
-  ttl: 60 * 60 * 24,
-};
+```tsx
+import { createRootRoute, Outlet, useRouter, HeadContent, Scripts } from "@tanstack/react-router";
+import { requireAuth } from "../server/functions/auth";
 
-export const authMiddleware = createMiddleware().server(
-  async ({ next, request }) => {
-    const url = new URL(request.url);
-
-    // Rutas públicas que no necesitan auth
-    const rutasPublicas = ["/login"];
-    if (rutasPublicas.includes(url.pathname)) {
-      return next();
-    }
-
-    const cookie = getCookie("renux_session");
-    if (!cookie) {
-      // Redirect a login
-      return new Response(null, {
-        status: 302,
-        headers: { Location: "/login" },
-      });
-    }
-
-    try {
-      const data = await unsealData<{ autenticado: boolean }>(
-        cookie,
-        SESSION_OPTIONS
-      );
-      if (!data.autenticado) {
-        return new Response(null, {
-          status: 302,
-          headers: { Location: "/login" },
-        });
-      }
-    } catch {
-      return new Response(null, {
-        status: 302,
-        headers: { Location: "/login" },
-      });
-    }
-
-    return next();
-  }
-);
-```
-
-Registrar el middleware en `app.config.ts`:
-
-```ts
-import { defineConfig } from "@tanstack/start/config";
-import { authMiddleware } from "./app/server/middleware/auth";
-
-export default defineConfig({
-  server: {
-    middleware: [authMiddleware],
+export const Route = createRootRoute({
+  beforeLoad: async ({ location }) => {
+    // /login es pública, el resto requiere auth
+    if (location.pathname === "/login") return;
+    await requireAuth();
   },
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+    ],
+  }),
+  component: RootLayout,
 });
 ```
+
+`requireAuth` es una server function que verifica la cookie de sesión.
+Si no hay sesión válida, lanza `redirect({ to: "/login" })` automáticamente.
+
+**Ventajas de este enfoque:**
+- Un solo punto de control (no hay que agregar auth en cada ruta)
+- Funciona con la API real de TanStack Start
+- El redirect ocurre antes de que la ruta renderice
 
 ---
 
