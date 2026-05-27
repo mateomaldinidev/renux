@@ -8,18 +8,18 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProductosIndexRouteImport } from './routes/productos/index'
-import { Route as PedidosIndexRouteImport } from './routes/pedidos/index'
-import { Route as GastosIndexRouteImport } from './routes/gastos/index'
-import { Route as ClientesIndexRouteImport } from './routes/clientes/index'
-import { Route as BalanceIndexRouteImport } from './routes/balance/index'
-import { Route as ProductosNuevoRouteImport } from './routes/productos/nuevo'
-import { Route as ProductosIdRouteImport } from './routes/productos/$id'
-import { Route as PedidosNuevoRouteImport } from './routes/pedidos/nuevo'
-import { Route as PedidosIdRouteImport } from './routes/pedidos/$id'
+import { Route as rootRouteImport } from './../routes/__root'
+import { Route as LoginRouteImport } from './../routes/login'
+import { Route as IndexRouteImport } from './../routes/index'
+import { Route as ProductosIndexRouteImport } from './../routes/productos/index'
+import { Route as PedidosIndexRouteImport } from './../routes/pedidos/index'
+import { Route as GastosIndexRouteImport } from './../routes/gastos/index'
+import { Route as ClientesIndexRouteImport } from './../routes/clientes/index'
+import { Route as BalanceIndexRouteImport } from './../routes/balance/index'
+import { Route as ProductosNuevoRouteImport } from './../routes/productos/nuevo'
+import { Route as ProductosIdRouteImport } from './../routes/productos/$id'
+import { Route as PedidosNuevoRouteImport } from './../routes/pedidos/nuevo'
+import { Route as PedidosIdRouteImport } from './../routes/pedidos/$id'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -272,8 +272,8 @@ export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
-import type { getRouter } from '../src/router.tsx'
-import type { startInstance } from '../src/ssr.tsx'
+import type { getRouter } from '../../src/router.tsx'
+import type { startInstance } from '../../src/ssr.tsx'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
