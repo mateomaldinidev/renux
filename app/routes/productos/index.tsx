@@ -11,8 +11,45 @@ import { formatPesos, formatKg } from "../../utils/format";
 
 export const Route = createFileRoute("/productos/")({
   loader: () => getProductos({ data: {} }),
+  pendingComponent: ProductosSkeleton,
   component: ProductosPage,
 });
+
+function ProductosSkeleton() {
+  return (
+    <div className="p-7 max-w-6xl">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="h-7 w-32 bg-orange-50 rounded animate-pulse mb-2" />
+          <div className="h-3 w-40 bg-orange-50 rounded animate-pulse" />
+        </div>
+        <div className="h-9 w-32 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="rounded-xl border border-orange-100 bg-white p-5">
+            <div className="h-3 w-20 bg-orange-50 rounded animate-pulse mb-3" />
+            <div className="h-7 w-28 bg-orange-50 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+      <div className="flex gap-3 mb-6">
+        <div className="h-9 w-48 bg-orange-50 rounded animate-pulse" />
+        <div className="h-9 w-28 bg-orange-50 rounded animate-pulse" />
+        <div className="h-9 w-20 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="grid grid-cols-3 gap-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="rounded-xl border border-orange-100 bg-white p-5">
+            <div className="h-5 w-24 bg-orange-50 rounded animate-pulse mb-3" />
+            <div className="h-3 w-32 bg-orange-50 rounded animate-pulse mb-3" />
+            <div className="h-1.5 w-full bg-orange-50 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function ProductosPage() {
   const productos = Route.useLoaderData();

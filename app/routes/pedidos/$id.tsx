@@ -31,8 +31,38 @@ const estadoConfig: Record<string, { label: string; color: string; icon: string 
 
 export const Route = createFileRoute("/pedidos/$id")({
   loader: ({ params }) => getPedido({ data: { id: Number(params.id) } }),
+  pendingComponent: PedidoDetalleSkeleton,
   component: PedidoDetallePage,
 });
+
+function PedidoDetalleSkeleton() {
+  return (
+    <div className="p-8">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="h-7 w-32 bg-orange-50 rounded animate-pulse mb-2" />
+          <div className="h-3 w-40 bg-orange-50 rounded animate-pulse" />
+        </div>
+        <div className="h-6 w-24 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="rounded-xl border border-orange-100 bg-white p-6 mb-6">
+        <div className="h-3 w-28 bg-orange-50 rounded animate-pulse mb-4" />
+        <div className="flex gap-3">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="flex-1 h-16 bg-orange-50 rounded animate-pulse" />
+          ))}
+        </div>
+      </div>
+      <div className="rounded-xl border border-orange-100 bg-white overflow-hidden mb-6">
+        <div className="h-10 bg-orange-50 animate-pulse" />
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="h-12 border-b border-orange-50 bg-orange-50/50 animate-pulse" />
+        ))}
+        <div className="h-20 bg-orange-50/30 animate-pulse" />
+      </div>
+    </div>
+  );
+}
 
 function PedidoDetallePage() {
   const pedido = Route.useLoaderData();

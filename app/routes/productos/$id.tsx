@@ -13,8 +13,47 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/productos/$id")({
   loader: ({ params }) => getProducto({ data: { id: Number(params.id) } }),
+  pendingComponent: ProductoDetalleSkeleton,
   component: ProductoDetallePage,
 });
+
+function ProductoDetalleSkeleton() {
+  return (
+    <div className="p-7 max-w-6xl">
+      <div className="flex items-start justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="h-7 w-40 bg-orange-50 rounded animate-pulse" />
+          <div className="h-5 w-16 bg-orange-50 rounded animate-pulse" />
+        </div>
+        <div className="h-9 w-16 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="grid grid-cols-2 gap-6">
+        <div className="space-y-6">
+          <div className="rounded-xl border border-orange-100 bg-white p-5">
+            <div className="h-5 w-32 bg-orange-50 rounded animate-pulse mb-4" />
+            <div className="space-y-4">
+              <div className="h-3 w-20 bg-orange-50 rounded animate-pulse" />
+              <div className="h-3 w-32 bg-orange-50 rounded animate-pulse" />
+              <div className="h-3 w-28 bg-orange-50 rounded animate-pulse" />
+            </div>
+          </div>
+          <div className="rounded-xl border border-orange-100 bg-white p-5">
+            <div className="h-5 w-32 bg-orange-50 rounded animate-pulse mb-4" />
+            <div className="h-1.5 w-full bg-orange-50 rounded animate-pulse" />
+          </div>
+        </div>
+        <div className="space-y-6">
+          <div className="rounded-xl border border-orange-100 bg-white p-5">
+            <div className="h-5 w-16 bg-orange-50 rounded animate-pulse mb-4" />
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="h-8 w-full bg-orange-50 rounded animate-pulse mb-2" />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ProductoDetallePage() {
   const router = useRouter();

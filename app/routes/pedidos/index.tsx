@@ -31,8 +31,34 @@ const estadoColors: Record<string, string> = {
 
 export const Route = createFileRoute("/pedidos/")({
   loader: () => getPedidos({ data: {} }),
+  pendingComponent: PedidosSkeleton,
   component: PedidosPage,
 });
+
+function PedidosSkeleton() {
+  return (
+    <div className="p-8">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="h-7 w-24 bg-orange-50 rounded animate-pulse mb-2" />
+          <div className="h-3 w-40 bg-orange-50 rounded animate-pulse" />
+        </div>
+        <div className="h-9 w-32 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="flex gap-2 mb-6">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-9 w-28 bg-orange-50 rounded animate-pulse" />
+        ))}
+      </div>
+      <div className="rounded-xl border border-orange-100 bg-white overflow-hidden">
+        <div className="h-10 bg-orange-50 animate-pulse" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-12 border-b border-orange-50 bg-orange-50/50 animate-pulse" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function PedidosPage() {
   const { pedidos, conteos } = Route.useLoaderData();

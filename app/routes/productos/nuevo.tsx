@@ -10,8 +10,30 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/productos/nuevo")({
   loader: () => getProductos({ data: {} }),
+  pendingComponent: NuevoProductoSkeleton,
   component: NuevoProductoPage,
 });
+
+function NuevoProductoSkeleton() {
+  return (
+    <div className="p-7 max-w-xl">
+      <div className="flex items-start justify-between mb-6">
+        <div className="h-7 w-36 bg-orange-50 rounded animate-pulse" />
+        <div className="h-9 w-16 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="h-10 w-64 bg-orange-50 rounded animate-pulse mb-6" />
+      <div className="space-y-4">
+        <div className="h-3 w-24 bg-orange-50 rounded animate-pulse" />
+        <div className="h-9 w-full bg-orange-50 rounded animate-pulse" />
+        <div className="h-3 w-24 bg-orange-50 rounded animate-pulse" />
+        <div className="h-9 w-full bg-orange-50 rounded animate-pulse" />
+        <div className="h-3 w-24 bg-orange-50 rounded animate-pulse" />
+        <div className="h-9 w-full bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="h-9 w-full bg-orange-50 rounded animate-pulse mt-6" />
+    </div>
+  );
+}
 
 function NuevoProductoPage() {
   const router = useRouter();

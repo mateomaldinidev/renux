@@ -13,8 +13,30 @@ import { toast } from "sonner";
 
 export const Route = createFileRoute("/clientes/")({
   loader: () => getClientes({ data: {} }),
+  pendingComponent: ClientesSkeleton,
   component: ClientesPage,
 });
+
+function ClientesSkeleton() {
+  return (
+    <div className="p-7 max-w-6xl">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="h-7 w-24 bg-orange-50 rounded animate-pulse mb-2" />
+          <div className="h-3 w-40 bg-orange-50 rounded animate-pulse" />
+        </div>
+        <div className="h-9 w-32 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="h-9 w-48 bg-orange-50 rounded animate-pulse mb-6" />
+      <div className="rounded-xl border border-orange-100 bg-white overflow-hidden">
+        <div className="h-10 bg-orange-50 animate-pulse" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="h-12 border-b border-orange-50 bg-orange-50/50 animate-pulse" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function ClientesPage() {
   const clientes = Route.useLoaderData();

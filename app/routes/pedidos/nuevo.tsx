@@ -38,8 +38,33 @@ export const Route = createFileRoute("/pedidos/nuevo")({
     ]);
     return { productos: productos.filter((p) => p.activo), clientes };
   },
+  pendingComponent: NuevoPedidoSkeleton,
   component: NuevoPedidoPage,
 });
+
+function NuevoPedidoSkeleton() {
+  return (
+    <div className="p-8">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="h-7 w-32 bg-orange-50 rounded animate-pulse mb-2" />
+          <div className="h-3 w-24 bg-orange-50 rounded animate-pulse" />
+        </div>
+        <div className="h-9 w-28 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="flex gap-6">
+        <div className="flex-1">
+          <div className="h-9 w-48 bg-orange-50 rounded animate-pulse mb-4" />
+          <div className="rounded-xl border border-orange-100 bg-white overflow-hidden">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-14 border-b border-orange-50 bg-orange-50/50 animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function NuevoPedidoPage() {
   const { productos, clientes } = Route.useLoaderData();

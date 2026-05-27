@@ -29,8 +29,62 @@ function getUltimos12Meses() {
 
 export const Route = createFileRoute("/balance/")({
   loader: () => getBalance({ data: { periodo: "mes" } }),
+  pendingComponent: BalanceSkeleton,
   component: BalancePage,
 });
+
+function BalanceSkeleton() {
+  return (
+    <div className="p-7 max-w-6xl">
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div className="h-7 w-20 bg-orange-50 rounded animate-pulse mb-2" />
+          <div className="h-3 w-40 bg-orange-50 rounded animate-pulse" />
+        </div>
+        <div className="flex gap-3">
+          <div className="h-10 w-48 bg-orange-50 rounded animate-pulse" />
+          <div className="h-9 w-44 bg-orange-50 rounded animate-pulse" />
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-4 mb-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={i} className="rounded-xl border border-orange-100 bg-white p-5">
+            <div className="h-3 w-24 bg-orange-50 rounded animate-pulse mb-3" />
+            <div className="h-7 w-28 bg-orange-50 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+      <div className="rounded-xl border border-orange-100 bg-white p-6 mb-6">
+        <div className="h-5 w-32 bg-orange-50 rounded animate-pulse mb-3" />
+        <div className="h-9 w-48 bg-orange-50 rounded animate-pulse" />
+      </div>
+      <div className="rounded-xl border border-orange-100 bg-white p-6 mb-6">
+        <div className="h-3 w-48 bg-orange-50 rounded animate-pulse mb-6" />
+        <div className="flex items-end gap-3 h-40">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="flex-1 bg-orange-50 rounded animate-pulse" />
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-6 mb-6">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <div key={i} className="rounded-xl border border-orange-100 bg-white p-6">
+            <div className="h-3 w-32 bg-orange-50 rounded animate-pulse mb-4" />
+            {Array.from({ length: 3 }).map((_, j) => (
+              <div key={j} className="h-8 w-full bg-orange-50 rounded animate-pulse mb-2" />
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className="rounded-xl border border-orange-100 bg-white overflow-hidden">
+        <div className="h-10 bg-orange-50 animate-pulse" />
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="h-12 border-b border-orange-50 bg-orange-50/50 animate-pulse" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function BalancePage() {
   const balance = Route.useLoaderData();
